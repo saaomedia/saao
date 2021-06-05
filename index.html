@@ -1,0 +1,228 @@
+<html>
+	<head>
+	<script>
+		function showsection(s) {
+			[...document.getElementsByClassName('section')].forEach( el => el.hidden=true);
+			document.getElementById(s).hidden=false;
+		}
+		function prepare() {
+			showsection(window.location.hash.substr(1));
+		}
+	</script>
+	<style>
+		:root {
+			--text-color:darkgray;
+			--highlight-color:beige;
+			--background-color:beige;
+			--header-color:white;
+			--footer-color:black;
+			--footer-text:white;
+		}
+		.logo {
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 3em;
+			margin-bottom: 3em;
+			width: 8em;
+		}
+		body {
+			background-attachment: fixed;
+			background-image: url("background.jpg");
+			background-size: auto 100%;
+			background-repeat: no-repeat;
+			display: table;
+			align: center;
+			width: 100%;
+			font-family: sans-serif;
+		}
+		.empty {
+			padding: 10em;
+		}
+		body div.main{
+		}
+		body div.content{
+			background-color: var(--background-color);
+			width:40em;
+			margin:auto;
+			padding-bottom:1em; /*heh need to cover the slide controls*/
+			
+		}
+		body div.content img.ci { width: 30em; }
+		img.mi { width: 40em; }
+		body div.content p{
+
+			width:40em;
+		}
+		header {
+			color: var(--text-color);
+			background-color: var(--header-color);
+		}
+		footer {
+			background-color: var(--footer-color);
+			color: var(--footer-text);
+		}
+		footer a{
+			color: var(--footer-text);
+			text-style: none;
+		}
+
+		nav { margin-right: 2em; }
+		nav ul { list-style-type: none;
+			
+			margin-left: auto;
+			margin-right: auto;
+			width: 100%;
+			display: table;
+			text-align: center;
+		}
+		nav ul li { 
+			display: table-cell;
+			#margin-left: 4em;
+			width: 20%;
+		}
+		nav ul li a {
+			width: 50%;
+			padding:5%;
+			#background: var(--background-color);
+			transition: background-color 1s;
+			transition-timing-function:cubic-bezier(0,3,2,1);
+			text-decoration:none;
+			color: var(--text-color);
+			text-transform: uppercase;
+		}
+		nav ul li a:hover {
+			background: var(--highlight-color);
+		}
+		
+		hr{
+		    border: 0;
+		    height: 1px;
+		    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+		}
+		.slider {
+			width:30em;
+			height: auto;
+			overflow:hidden;
+		}
+		.slides {
+				width: 500%;
+				display: flex;
+		}
+		.slides input {display: none;}
+		.slide {width: 20%; transition: 2s;}
+		.slide img{width: 30em;}
+		.slidenav {position: absolute; width:30em; display: flex; justivy-content: center;}
+		.navigation-btn {
+            border: 2px solid #de6a23;
+            padding: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 1s;
+        }
+
+        .navigation-btn:not(:last-child) {
+            margin-right: 40px;
+        }
+
+        .navigation-btn:hover {
+            background: #de6a23;
+        }
+
+		#radio1:checked~.first { margin-left: 0; }
+		#radio2:checked~.first { margin-left: -20%; }
+		#radio3:checked~.first { margin-left: -40%; }
+		#radio4:checked~.first { margin-left: -60%; }
+		#radio5:checked~.first { margin-left: -80%; }
+
+	</style>
+
+	</head>
+	<body onload="prepare();">
+		<div class="main">
+			<header>
+				<div class="logo">
+					<a href="index.html"><img src="logo.jpg"></img></a></div>
+				<nav>
+					<ul>
+						<li> <a href="index.html#home" onclick="showsection('home')">home</a></li>
+						<li> <a href="https://www.doordash.com/store/saao-thai-sushi-reston-1783516">order online</a></li>
+						<li> <a href="index.html#Thaimenu"onclick="showsection('Thaimenu')">Thai menu</a></li>
+						<li> <a href="index.html#Sushimenu"onclick="showsection('Sushimenu')">Sushi menu</a></li>
+						<li> <a href="index.html#contactus"onclick="showsection('contactus')">Contact us</a></li>
+					</ul></nav>
+					<br><hr>
+			</header>
+			<div class=empty></div>
+		<div class="content">
+			<div id="home" class="section">
+			<h1>SAAO Thai</h1>
+			<img class="ci" src="food1.jpg"></img>
+			<p>SAAO is named using the Northern Thai word “Twenty” and our logo incorporates the number 20 in Thai numerals.  Our intention is to establish SAAO in the year 2020.  SAAO is the fifth restaurant for our ownership team which operates Teak Wood Thai & Sushi, Kruba Thai & Sushi, The Regent Thai, and Galae Thai.  We served millions of Thai and Sushi dishes for our customers in the DC, Virginia are for the  last 15 years, and we love to offer our Thai and Sushi culinary expertise to Reston residents. </p>
+			<div id=slideshow>
+				<div class=slider>
+					<div class=slides>
+						<input type="radio" name="radio-btn" id="radio1" />
+						<input type="radio" name="radio-btn" id="radio2" />
+						<input type="radio" name="radio-btn" id="radio3" />
+						<input type="radio" name="radio-btn" id="radio4" />
+						<div class="first slide"> <img src="slide1.jpg"> </div>
+						<div class="slide"> <img src="slide2.jpg"> </div>
+						<div class="slide"> <img src="slide3.jpg"> </div>
+						<div class="slide"> <img src="slide4.jpg"> </div>
+					</div>
+					<div class="slidenav">
+						<label for="radio1" class="navigation-btn"></label>
+						<label for="radio2" class="navigation-btn"></label>
+						<label for="radio3" class="navigation-btn"></label>
+						<label for="radio4" class="navigation-btn"></label>
+					</div>
+				</div></div>
+
+
+			</div>
+			<div id="Thaimenu" class="section">
+			<h1 >Thai Menu</h1>
+			<p>
+			<img class="mi" src="SAAO-Menu-Thai1024_1.jpg"</img><br>
+			<img class="mi" src="SAAO-Menu-Thai1024_2.jpg"</img><br>
+			<img class="mi" src="SAAO-Menu-Thai1024_3.jpg"</img><br>
+			<img class="mi" src="SAAO-Menu-Thai1024_4.jpg"</img><br>
+			</p>
+			</div>
+			<div id="Sushimenu" class="section">
+			<h1 > Sushi Menu</h1>
+			<p>
+			<img src="SAAO-Menu-Sushi1024_1.jpg"></img><br>
+			</p>
+			</div>
+			<div id="contactus" class="section">
+				<h1 id="contactus">Contact Information</h1>
+				<h2>Location and Hours</h2>
+				<p>11730 Plaza America Dr. Suite 10<br>
+				Reston, Va 2019<br></p>
+				<h3>Phone</h3><p> +1 571-526-4114</p>
+
+				<table>
+					<tr><th> Business Hours</th></tr>
+					<tr><th> Monday - Friday</th></tr>
+					<tr><td>11:00AM - 03:00PM</td></tr>
+					<tr><td>05:00Pm - 10:00pm</td></tr>
+					<tr><th>Saturday</th></tr>
+					<tr><td>12:00PM - 10:00PM</td></tr>
+					<tr><th>Sunday</th></tr>
+					<tr><td>05:00pm - 10:00pm</td></tr>
+				</table>
+				<h2>Map</h2>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.7150104386874!2d-77.35266698438214!3d38.95333857956198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b6482314d08c2d%3A0x85bddef01d368559!2s11730%20Plaza%20America%20Dr%2C%20Reston%2C%20VA%2020190!5e0!3m2!1sen!2sus!4v1622904389781!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+			</div>
+		</div>
+		<div id="footer">
+		<footer>
+			</p><a href="https://goo.gl/maps/ooqrXxumxEsP6sH99">1730 Plaza America Dr, Reston, VA 2019</a><p>
+			<p> <a href="tel:571-526-4114">571-526-4114</a></p>
+
+		</footer>
+		</div>
+
+	</body>
+</html>
