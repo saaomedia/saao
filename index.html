@@ -16,7 +16,7 @@
 		:root {
 			--text-color:darkgray;
 			--highlight-color:beige;
-			--background-color:beige;
+			--background-color:#ffebcd;
 			--header-color:white;
 			--footer-background:black;
 			--footer-text:white;
@@ -29,10 +29,19 @@
 			margin-top: 2em;
 			width: 10em;
 		}
+		.cover {
+			max-width:155vw;
+			margin-left:auto;
+			margin-right:auto;
+
+		}
+		.cover img {
+			width:100%;
+		}
 		body {
 			background-attachment: fixed;
-			background-image: url("background.jpg");
-			background-size: auto 100vw;
+			background-size: auto 100vh;
+			background-color:var(--background-color);
 			background-repeat: no-repeat;
 			display: table;
 			align: center;
@@ -53,7 +62,7 @@
 			margin:auto;
 			padding-bottom:1em; /*heh need to cover the slide controls*/
 			align: center;
-			filter: drop-shadow(30px 30px 30px #444444);
+			/*filter: drop-shadow(30px 30px 30px #444444);*/
 			
 		}
 		div.section {align: center;}
@@ -182,7 +191,7 @@
 		<div class="main">
 			<header>
 				<div class="logo">
-					<a href="index.html"><img src="logo.jpg"></img></a></div>
+					<a href="index.html"><img src="logo.png"></img></a></div>
 				<nav>
 					<ul>
 						<li> <a href="index.html#home" onclick="showsection('home')">home</a></li>
@@ -193,9 +202,7 @@
 					</ul></nav>
 					<br><hr>
 			</header>
-			<div class=empty></div>
-			<div class=empty></div>
-			<div class=empty></div>
+			<div class=cover><img src="background.jpg"><img></div>
 			<div class=empty></div>
 		<div class="content">
 			<div id="home" class="section">
