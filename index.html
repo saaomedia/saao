@@ -1,15 +1,48 @@
 <html>
-	<head>
-		<title> SAAO Thai Resturant</title>
-	<script>
-		function showsection(s) {
-			if(s=="") s="home";
-			[...document.getElementsByClassName('section')].forEach( el => el.hidden=true);
-			document.getElementById(s).hidden=false;
+<head>
+<title> SAAO Thai Resturant</title>
+<script>
+	function showsection(s) {
+		if(s=="") s="home";
+		[...document.getElementsByClassName('section')].forEach( el => el.hidden=true);
+		document.getElementById(s).hidden=false;
+	}
+	function prepare() {
+		showsection(window.location.hash.substr(1));
+	}
+	function getslides(cid) {
+		let p=window.location.pathname;
+		let pdir = p.substring(0,p.lastIndexOf('/'));
+		let can = document.getElementById(cid);
+		let slides=[]
+		function ff(n) {
+			fetch(pdir+"/"+cid+n+".jpg")
+				.then(function(r){
+					if(r.status==200){
+						r.blob().then(function(b){
+							slides[n]= new Image;
+							slides[n].src = URL.createObjectURL(b)
+							return ff(n+1);
+						});
+				}else return slides;
+			});
 		}
-		function prepare() {
-			showsection(window.location.hash.substr(1));
-		}
+		ff(0).then(s => can.setAttribute("data-slides",s));
+	}
+	function nextslide(canid){
+		let can=document.getElementById(canid)
+		let slides=can.getAttribute("data-slides");
+		let ctx=can.getContext("2d");
+		let n=0;
+		n=n+can.getAttribute("data-curslide");
+		ctx.drawImage(slides[n],0,0);
+		can.setAttribute("data-curslide",n);
+	}
+	function main() {
+		prepare();
+		getslides("slide");
+		nextslide("slide");
+	}
 	</script>
 
 	<style>
@@ -27,20 +60,17 @@
 			/*margin-top: 3em;*/
 			margin-bottom: 3em;
 			margin-top: 2em;
-			width: 10em;
+			width: 20em;
 		}
 		.cover {
-			max-width:155vw;
-			margin-left:auto;
-			margin-right:auto;
-
+			width:100%;
 		}
 		.cover img {
 			width:100%;
 		}
 		body {
 			background-attachment: fixed;
-			background-size: auto 100vh;
+			background-size: auto 100%;
 			background-color:var(--background-color);
 			background-repeat: no-repeat;
 			display: table;
@@ -49,12 +79,10 @@
 			font-family: sans-serif;
 		}
 		.empty {
-			padding: 4em;
+			padding-top: 4em;
+			padding-bottom: 4em;
 		}
 		body div.main{
-			width:96vw;
-			margin:0;
-			padding:0;
 		}
 		body div.content{
 			background-color: var(--background-color);
@@ -70,6 +98,7 @@
 			margin-left:5em;
 			margin-right:5em;
 			text-align: justify;
+			line-height:2em;
 		}
 		div.section div.fakep{
 			margin-left:5em;
@@ -84,9 +113,8 @@
 		header {
 			color: var(--text-color);
 			background-color: var(--header-color);
-			width:100vw;
+			width:100%;
 			padding: 4px;
-			margin-left: -8px;
 			margin-top: -1em;
 		}
 		footer {
@@ -95,7 +123,6 @@
 			padding:1em;
 			padding-left:10em;
 			padding-bottom:5em;
-			margin: -2em;
 		}
 		footer a{
 			color: var(--footer-text);
@@ -138,60 +165,24 @@
 		nav ul li a:hover {
 			background: var(--highlight-color);
 		}
+		.slide {
+			width=100%;
+			height=6em;
+		}
+		
 		
 		hr{
 		    border: 0;
 		    height: 3px;
 		    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 		}
-		.slider {
-			max-width:40em;
-			margin:5em;
-			border-color:grey;
-			border:solid;
-			height: auto;
-			overflow:hidden;
-			#background: var(--background-color);
-		}
-		.slides {
-				width: 500%;
-				display: flex;
-		}
-		.slides input {display: none;}
-		.slide {width: 20%; transition: 2s;
-			text-align: center;
-		}
-		.slide img{margin-top: auto;height: 30em;}
-		.slidenav {position: absolute; max-width:30em; display: flex; justivy-content: center;}
-		.navigation-btn {
-            border: 2px solid #de6a23;
-            padding: 5px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 1s;
-        }
-
-        .navigation-btn:not(:last-child) {
-            margin-right: 40px;
-        }
-
-        .navigation-btn:hover {
-            background: #de6a23;
-        }
-
-		#radio1:checked~.first { margin-left: 0; }
-		#radio2:checked~.first { margin-left: -20%; }
-		#radio3:checked~.first { margin-left: -40%; }
-		#radio4:checked~.first { margin-left: -60%; }
-		#radio5:checked~.first { margin-left: -80%; }
-
 	</style>
 	</head>
-	<body onload="prepare();">
+	<body onload="main();">
 		<div class="main">
 			<header>
 				<div class="logo">
-					<a href="index.html"><img src="logo.png"></img></a></div>
+					<center><a href="index.html"><img src="logo.png"></img></a></center></div>
 				<nav>
 					<ul>
 						<li> <a href="index.html#home" onclick="showsection('home')">home</a></li>
@@ -213,25 +204,7 @@
 			<p>Over 15 years, we served millions of dishes of our Thai and Sushi culinary expertise in DC. Now, we are offering Reston residents to enjoy the dining experience with 2 cuisines in 1 place. Atmosphere with Woodcarving, Decorative furnished made from Thailand.</p>
 			<img class="ci" src="food1.jpg"></img>
 			<p>SAAO THAI & SUSHI offers an authentic Thai dining experience, shaped by the lifelong passion and peerless culinary Thai-inspired. From smooth, aromatic curries to fresh salads and perfectly balanced pad thai, Our menu provides an insight into the best of Thai and Sushi cuisine, featuring freshly sourced produce.</p>
-			<div id=slideshow>
-				<div class=slider>
-					<div class=slides>
-						<input type="radio" name="radio-btn" id="radio1" />
-						<input type="radio" name="radio-btn" id="radio2" />
-						<input type="radio" name="radio-btn" id="radio3" />
-						<input type="radio" name="radio-btn" id="radio4" />
-						<div class="first slide"> <img src="slide1.jpg"> </div>
-						<div class="slide"> <img src="slide2.jpg"> </div>
-						<div class="slide"> <img src="slide3.jpg"> </div>
-						<div class="slide"> <img src="slide4.jpg"> </div>
-					</div>
-					<div class="slidenav">
-						<label for="radio1" class="navigation-btn"></label>
-						<label for="radio2" class="navigation-btn"></label>
-						<label for="radio3" class="navigation-btn"></label>
-						<label for="radio4" class="navigation-btn"></label>
-					</div>
-				</div></div>
+			<center><canvas id="slide" class="slide" onclick="nextslide('slide');"></canvas></center>
 
 
 			</div>
@@ -272,7 +245,7 @@
 			<div class=empty></div>
 		<div id="footer">
 		<footer>
-			</p><a href="https://goo.gl/maps/ooqrXxumxEsP6sH99">1730 Plaza America Dr, Reston, VA 2019</a><p>
+			</p><a href="https://goo.gl/maps/ooqrXxumxEsP6sH99">11730 Plaza America Dr, Reston, VA 20190</a><p>
 			<p> <a href="tel:571-526-4114">571-526-4114</a></p>
 
 			<a href="https://www.facebook.com/saaothaisushi/"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
