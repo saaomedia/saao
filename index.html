@@ -11,23 +11,23 @@
 		showsection(window.location.hash.substr(1));
 	}
 	function getslides(cid) {
-		let p=window.location.pathname;
+		let p = window.location.pathname;
 		let pdir = p.substring(0,p.lastIndexOf('/'));
 		let can = document.getElementById(cid);
-		let slides=[]
+		let slides = []
 		function ff(n) {
 			fetch(pdir+"/"+cid+n+".jpg")
 				.then(function(r){
 					if(r.status==200){
 						r.blob().then(function(b){
-							slides[n]= new Image;
+							slides[n] = new Image;
 							slides[n].src = URL.createObjectURL(b)
 							return ff(n+1);
 						});
 				}else return slides;
 			});
 		}
-		ff(0).then(s => can.setAttribute("data-slides",s));
+		ff(1).then(s => can.setAttribute("data-slides",s));
 	}
 	function nextslide(canid){
 		let can=document.getElementById(canid)
@@ -99,6 +99,7 @@
 			margin-right:5em;
 			text-align: justify;
 			line-height:2em;
+			text-transform: uppercase;
 		}
 		div.section div.fakep{
 			margin-left:5em;
@@ -238,14 +239,16 @@
 					<tr><td>05:00pm - 10:00pm</td></tr>
 				</table>
 				<h2>Map</h2>
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.7150104386874!2d-77.35266698438214!3d38.95333857956198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b6482314d08c2d%3A0x85bddef01d368559!2s11730%20Plaza%20America%20Dr%2C%20Reston%2C%20VA%2020190!5e0!3m2!1sen!2sus!4v1622904389781!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+				<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12410.86003817573!2d-77.3504783!3d38.9533386!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xe9887db7580f1d6f!2sSAAO%20THAI%20%26%20SUSHI!5e0!3m2!1sen!2sus!4v1624040256276!5m2!1sen!2sus" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 				</div>
 			</div>
 		</div>
 			<div class=empty></div>
 		<div id="footer">
 		<footer>
-			</p><a href="https://goo.gl/maps/ooqrXxumxEsP6sH99">11730 Plaza America Dr, Reston, VA 20190</a><p>
+			</p><a href="https://www.google.com/maps/place/SAAO+THAI+%26+SUSHI/@38.9533386,-77.3504783,15z/data=!4m5!3m4!1s0x0:0xe9887db7580f1d6f!8m2!3d38.9532515!4d-77.3503621
+
+">11730 Plaza America Dr, Reston, VA 20190</a><p>
 			<p> <a href="tel:571-526-4114">571-526-4114</a></p>
 
 			<a href="https://www.facebook.com/saaothaisushi/"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
