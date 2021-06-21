@@ -10,32 +10,41 @@
 	function prepare() {
 		showsection(window.location.hash.substr(1));
 	}
-	function getslides(cid) {
+	async function getslides(cid) {
 		let p = window.location.pathname;
 		let pdir = p.substring(0,p.lastIndexOf('/'));
 		let can = document.getElementById(cid);
-		let slides = []
-		function ff(n) {
-			fetch(pdir+"/"+cid+n+".jpg")
-				.then(function(r){
-					if(r.status==200){
-						r.blob().then(function(b){
-							slides[n] = new Image;
-							slides[n].src = URL.createObjectURL(b)
-							return ff(n+1);
-						});
-				}else return slides;
-			});
+		async function ff(n) {
+			srcstring=pdir+"/"+cid+n+".jpg";
+			var r = await fetch(srcstring,{method: "HEAD"});
+			if(r.status==200){
+				var i = new Image();
+				i.src=srcstring;
+				return {i:i};
+			}else return {s:"n"};
 		}
-		ff(1).then(s => can.setAttribute("data-slides",s));
+		for(var i=1;i<100;i++){
+			var curimg = await ff(i);
+			if(curimg.s != "n")
+				can.appendChild(curimg.i);
+			else
+				break;
+		}
 	}
 	function nextslide(canid){
 		let can=document.getElementById(canid)
-		let slides=can.getAttribute("data-slides");
+		let slides=can.children;
 		let ctx=can.getContext("2d");
 		let n=0;
-		n=n+can.getAttribute("data-curslide");
-		ctx.drawImage(slides[n],0,0);
+		n=Number(can.getAttribute("data-curslide"));
+		n=n+1;
+		if(n>=slides.length) n=1;
+		var i=slides[n];
+		var iw=i.width;
+		var ih=i.height;
+		var cw=can.width;
+		var ch=can.height;
+		ctx.drawImage(slides[n],0,0,iw,ih,0,0,cw,cw*ih/iw);
 		can.setAttribute("data-curslide",n);
 	}
 	function main() {
